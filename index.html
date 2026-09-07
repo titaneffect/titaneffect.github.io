@@ -1,40 +1,530 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>나를 소개합니다</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 600px;
-      margin: 80px auto;
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    h1 {
-      margin-bottom: 10px;
-    }
-    p {
-      line-height: 1.6;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Developer Portfolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            line-height: 1.7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1100px, 90%);
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(13, 17, 23, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #21262d;
+        }
+
+        nav {
+            min-height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #8b949e;
+            transition: 0.2s;
+        }
+
+        .nav-menu a:hover {
+            color: #ffffff;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 750px;
+        }
+
+        .hello {
+            color: #58a6ff;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #58a6ff;
+        }
+
+        .hero p {
+            max-width: 650px;
+            color: #8b949e;
+            font-size: 1.15rem;
+            margin-bottom: 35px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: #238636;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2ea043;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid #30363d;
+            color: #e6edf3;
+        }
+
+        .btn-outline:hover {
+            background: #161b22;
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .section-title span {
+            color: #58a6ff;
+        }
+
+        /* About */
+        .about-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            padding: 30px;
+        }
+
+        .about-card p {
+            color: #b1bac4;
+            margin-bottom: 12px;
+        }
+
+        /* Stack */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .stack-item {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .stack-item:hover {
+            border-color: #58a6ff;
+            transform: translateY(-4px);
+        }
+
+        /* Projects */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            padding: 25px;
+            transition: 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: #58a6ff;
+        }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        .project-card p {
+            color: #8b949e;
+            margin-bottom: 18px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            background: #21262d;
+            color: #58a6ff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .project-link {
+            color: #58a6ff;
+            font-weight: bold;
+        }
+
+        /* Contact */
+        .contact {
+            text-align: center;
+        }
+
+        .contact p {
+            color: #8b949e;
+            margin-bottom: 25px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #21262d;
+            padding: 30px 0;
+            text-align: center;
+            color: #6e7681;
+        }
+
+        @media (max-width: 700px) {
+
+            .nav-menu {
+                gap: 15px;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                min-height: 75vh;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>안녕하세요 👋</h1>
-    <p>저는 jbs371입니다.</p>
-    <p>이곳은 저를 소개하는 개인 홈페이지입니다.</p>
-    <p>관심사: 개발, 공부, 기록</p>
-    <p>이메일: example@email.com</p>
-  </div>
+
+<header>
+    <div class="container">
+        <nav>
+            <div class="logo">
+                &lt;Developer /&gt;
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#stack">Stack</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+<main>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+
+                <div class="hello">
+                    Hello, I'm
+                </div>
+
+                <h1>
+                    Backend<br>
+                    <span>Developer.</span>
+                </h1>
+
+                <p>
+                    Java와 Spring을 중심으로 백엔드 개발을 공부하고 있습니다.
+                    단순히 동작하는 코드를 넘어,
+                    구조와 원리를 이해하는 개발자가 되는 것을 목표로 하고 있습니다.
+                </p>
+
+                <div class="buttons">
+
+                    <a href="#projects" class="btn btn-primary">
+                        프로젝트 보기
+                    </a>
+
+                    <a href="https://github.com/YOUR_GITHUB_ID"
+                       target="_blank"
+                       class="btn btn-outline">
+                        GitHub
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- About -->
+    <section id="about">
+        <div class="container">
+
+            <h2 class="section-title">
+                <span>01.</span> About Me
+            </h2>
+
+            <div class="about-card">
+
+                <p>
+                    안녕하세요. 백엔드 개발자를 준비하고 있는 개발자입니다.
+                </p>
+
+                <p>
+                    Java, Spring Framework, Spring Boot를 중심으로
+                    웹 애플리케이션 개발을 공부하고 있습니다.
+                </p>
+
+                <p>
+                    CRUD 구현뿐만 아니라 Spring Security,
+                    데이터베이스 설계, AWS 배포,
+                    Git 기반 협업 경험을 쌓고 있습니다.
+                </p>
+
+                <p>
+                    새로운 기술을 단순히 사용하는 것보다
+                    왜 사용하는지 이해하고 적용하는 것을 중요하게 생각합니다.
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Tech Stack -->
+    <section id="stack">
+        <div class="container">
+
+            <h2 class="section-title">
+                <span>02.</span> Tech Stack
+            </h2>
+
+            <div class="stack-grid">
+
+                <div class="stack-item">Java</div>
+                <div class="stack-item">Spring</div>
+                <div class="stack-item">Spring Boot</div>
+                <div class="stack-item">MyBatis</div>
+                <div class="stack-item">JPA</div>
+                <div class="stack-item">MySQL</div>
+                <div class="stack-item">Oracle</div>
+                <div class="stack-item">JavaScript</div>
+                <div class="stack-item">Git</div>
+                <div class="stack-item">GitHub</div>
+                <div class="stack-item">AWS EC2</div>
+                <div class="stack-item">AWS S3</div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Projects -->
+    <section id="projects">
+
+        <div class="container">
+
+            <h2 class="section-title">
+                <span>03.</span> Projects
+            </h2>
+
+            <div class="project-grid">
+
+                <!-- Project 1 -->
+                <div class="project-card">
+
+                    <h3>Board Project</h3>
+
+                    <p>
+                        Spring 기반 게시판 웹 애플리케이션입니다.
+                        회원 인증, 게시글 CRUD, 댓글,
+                        이미지 업로드 기능 등을 구현했습니다.
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">Spring</span>
+                        <span class="tag">MyBatis</span>
+                        <span class="tag">Spring Security</span>
+                        <span class="tag">AWS</span>
+                    </div>
+
+                    <a
+                        href="https://github.com/YOUR_GITHUB_ID/YOUR_PROJECT"
+                        target="_blank"
+                        class="project-link">
+                        Repository →
+                    </a>
+
+                </div>
+
+
+                <!-- Project 2 -->
+                <div class="project-card">
+
+                    <h3>Coming Soon</h3>
+
+                    <p>
+                        새로운 프로젝트를 준비하고 있습니다.
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">Spring Boot</span>
+                    </div>
+
+                </div>
+
+
+                <!-- Project 3 -->
+                <div class="project-card">
+
+                    <h3>Study Repository</h3>
+
+                    <p>
+                        Java, Spring, SQL 및 백엔드 개발 과정에서
+                        공부한 내용을 기록하는 저장소입니다.
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">Git</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Contact -->
+    <section id="contact">
+
+        <div class="container contact">
+
+            <h2 class="section-title">
+                <span>04.</span> Contact
+            </h2>
+
+            <p>
+                함께 성장하고 좋은 서비스를 만드는 개발자가 되고 싶습니다.
+            </p>
+
+            <div class="buttons" style="justify-content:center;">
+
+                <a
+                    href="https://github.com/YOUR_GITHUB_ID"
+                    target="_blank"
+                    class="btn btn-primary">
+                    GitHub
+                </a>
+
+                <a
+                    href="mailto:YOUR_EMAIL"
+                    class="btn btn-outline">
+                    Email
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+        © 2026 Backend Developer Portfolio
+    </div>
+
+</footer>
+
+
 </body>
 </html>
-출처: https://recording-it.tistory.com/127 [나를 위한 꾸준한 기록 - 다시개발:티스토리]
